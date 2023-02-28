@@ -332,7 +332,7 @@ class textSumLitModule(LightningModule):
         x_attention_mask = torch.LongTensor(inputdata['attention_mask']).cuda()
 
         for i in range(len(x_input_ids)):
-            greedy_dec_input = self.greedy_decoder(max_len=250, enc_input=x_input_ids[i].view(1, -1), start_symbol=101)
+            greedy_dec_input = self.greedy_decoder(max_len=250, enc_input=x_input_ids[i].view(1, -1), task_type=task_type, start_symbol=101)
             predict, _, _, _ = self.net(x_input_ids[i].view(1, -1), greedy_dec_input, task_type)
             predict = predict.data.max(1, keepdim=True)[1]
             preds_token = "".join(self.tokenizer.convert_ids_to_tokens(predict, skip_special_tokens=True))

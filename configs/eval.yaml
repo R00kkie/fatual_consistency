@@ -2,8 +2,8 @@
 
 defaults:
   - _self_
-  - data: mnist.yaml # choose datamodule with `test_dataloader()` for evaluation
-  - model: mnist.yaml
+  - data: cmmi.yaml # choose datamodule with `test_dataloader()` for evaluation
+  - model: cmmi.yaml
   - logger: null
   - trainer: default.yaml
   - paths: default.yaml
@@ -15,4 +15,4 @@ task_name: "eval"
 tags: ["dev"]
 
 # passing checkpoint path is necessary for evaluation
-ckpt_path: ???
+ckpt_path: /data/lzp/code/factual_consistency/logs/train/runs/2023-02-27_17-33-40/checkpoints/epoch_000.ckpt
