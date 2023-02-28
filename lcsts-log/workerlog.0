@@ -1,0 +1,82 @@
+/data/lzp/anaconda3/envs/race/lib/python3.7/site-packages/_distutils_hack/__init__.py:33: UserWarning: Setuptools is replacing distutils.
+  warnings.warn("Setuptools is replacing distutils.")
+-----------  Configuration Arguments -----------
+batch_size: 64
+beta1: 0.9
+beta2: 0.98
+dataset_name: lcsts_new
+decode_strategy: beam_search
+device: gpu
+do_predict: True
+do_train: True
+epochs: 6
+epsilon: 1e-06
+learning_rate: 5e-05
+length_penalty: 1.2
+logging_steps: 100
+max_dec_len: 20
+max_grad_norm: 1.0
+max_seq_len: 320
+max_target_len: 30
+max_title_len: 30
+min_dec_len: 3
+model_name_or_path: unimo-text-1.0
+num_beams: 6
+num_return_sequences: 1
+output_path: ./predict.txt
+predict_file: None
+save_dir: ./lcsts-log/checkpoints
+save_steps: 10000
+seed: 1
+temperature: 1.0
+top_k: 0
+top_p: 1.0
+train_file: None
+warmup_propotion: 0.02
+weight_decay: 0.01
+------------------------------------------------
+[32m[2023-02-10 11:12:30,639] [    INFO][0m - Model config UNIMOConfig {
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": 1,
+  "eos_token_id": 3,
+  "hidden_act": "relu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "mask_token_id": 3,
+  "max_position_embeddings": 513,
+  "model_type": "unimo",
+  "normalize_before": false,
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "pad_token_id": 0,
+  "paddlenlp_version": null,
+  "type_vocab_size": 4,
+  "unk_token_id": 17963,
+  "vocab_size": 18000
+}
+[0m
+[32m[2023-02-10 11:12:30,640] [    INFO][0m - Configuration saved in /data/lzp/.paddlenlp/models/unimo-text-1.0/config.json[0m
+[32m[2023-02-10 11:12:30,640] [    INFO][0m - Downloading unimo-text-1.0.pdparams from https://bj.bcebos.com/paddlenlp/models/transformers/unimo/unimo-text-1.0.pdparams[0m
+  0%|          | 0.00/434M [00:00<?, ?B/s]  1%|          | 2.24M/434M [00:00<00:19, 23.5MB/s]  3%|▎         | 12.4M/434M [00:00<00:06, 72.1MB/s]  5%|▌         | 22.6M/434M [00:00<00:05, 81.3MB/s]  8%|▊         | 33.5M/434M [00:00<00:04, 93.6MB/s] 10%|█         | 45.0M/434M [00:00<00:03, 103MB/s]  13%|█▎        | 55.4M/434M [00:00<00:03, 105MB/s] 15%|█▌        | 65.4M/434M [00:00<00:04, 95.1MB/s] 18%|█▊        | 77.1M/434M [00:00<00:03, 103MB/s]  20%|██        | 87.1M/434M [00:00<00:03, 101MB/s] 22%|██▏       | 96.9M/434M [00:01<00:03, 92.3MB/s] 25%|██▌       | 109M/434M [00:01<00:03, 101MB/s]   28%|██▊       | 120M/434M [00:01<00:03, 107MB/s] 30%|███       | 131M/434M [00:01<00:02, 109MB/s] 33%|███▎      | 142M/434M [00:01<00:02, 111MB/s] 35%|███▌      | 153M/434M [00:01<00:02, 111MB/s] 38%|███▊      | 164M/434M [00:01<00:02, 112MB/s] 40%|████      | 175M/434M [00:01<00:02, 113MB/s] 43%|████▎     | 186M/434M [00:01<00:02, 114MB/s] 45%|████▌     | 197M/434M [00:02<00:02, 104MB/s] 48%|████▊     | 207M/434M [00:02<00:02, 99.1MB/s] 50%|█████     | 217M/434M [00:02<00:02, 102MB/s]  52%|█████▏    | 228M/434M [00:02<00:02, 103MB/s] 55%|█████▍    | 238M/434M [00:02<00:01, 106MB/s] 57%|█████▋    | 248M/434M [00:02<00:01, 101MB/s] 59%|█████▉    | 258M/434M [00:02<00:01, 95.4MB/s] 62%|██████▏   | 269M/434M [00:02<00:01, 100MB/s]  64%|██████▍   | 279M/434M [00:02<00:01, 100MB/s] 67%|██████▋   | 289M/434M [00:02<00:01, 103MB/s] 69%|██████▉   | 299M/434M [00:03<00:01, 97.6MB/s] 71%|███████   | 309M/434M [00:03<00:01, 99.9MB/s] 74%|███████▍  | 320M/434M [00:03<00:01, 106MB/s]  76%|███████▌  | 331M/434M [00:03<00:01, 102MB/s] 79%|███████▊  | 341M/434M [00:03<00:00, 105MB/s] 81%|████████  | 352M/434M [00:03<00:00, 92.7MB/s] 84%|████████▎ | 363M/434M [00:03<00:00, 100MB/s]  86%|████████▌ | 374M/434M [00:03<00:00, 104MB/s] 89%|████████▊ | 384M/434M [00:03<00:00, 95.9MB/s] 91%|█████████ | 395M/434M [00:04<00:00, 102MB/s]  93%|█████████▎| 405M/434M [00:04<00:00, 102MB/s] 96%|█████████▌| 415M/434M [00:04<00:00, 96.8MB/s] 98%|█████████▊| 425M/434M [00:04<00:00, 88.6MB/s]100%|██████████| 434M/434M [00:04<00:00, 100MB/s] 
+Traceback (most recent call last):
+  File "run_gen.py", line 237, in <module>
+    run(args)
+  File "run_gen.py", line 101, in run
+    model = UNIMOLMHeadModel.from_pretrained(args.model_name_or_path)
+  File "/data/lzp/anaconda3/envs/race/lib/python3.7/site-packages/paddlenlp/transformers/model_utils.py", line 477, in from_pretrained
+    return cls.from_pretrained_v2(pretrained_model_name_or_path, from_hf_hub=from_hf_hub, *args, **kwargs)
+  File "/data/lzp/anaconda3/envs/race/lib/python3.7/site-packages/paddlenlp/transformers/model_utils.py", line 1330, in from_pretrained_v2
+    model_state_dict = paddle.load(model_weight_file, return_numpy=load_state_as_np)
+  File "/data/lzp/anaconda3/envs/race/lib/python3.7/site-packages/paddle/framework/io.py", line 1055, in load
+    load_result[key], config.return_numpy
+  File "/data/lzp/anaconda3/envs/race/lib/python3.7/site-packages/paddle/framework/io.py", line 455, in _ndarray_to_tensor
+    return paddle.to_tensor(obj)
+  File "/data/lzp/anaconda3/envs/race/lib/python3.7/site-packages/paddle/tensor/creation.py", line 546, in to_tensor
+    return _to_tensor_non_static(data, dtype, place, stop_gradient)
+  File "/data/lzp/anaconda3/envs/race/lib/python3.7/site-packages/paddle/tensor/creation.py", line 411, in _to_tensor_non_static
+    stop_gradient=stop_gradient,
+OSError: (External) CUDA error(222), the provided PTX was compiled with an unsupported toolchain.. 
+  [Hint: Please search for the error code(222) on website (https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html#group__CUDART__TYPES_1g3f51e3575c2178246db0a94a430e0038) to get Nvidia's official solution and advice about CUDA Error.] (at /paddle/paddle/fluid/platform/device/gpu/gpu_info.cc:142)
+

@@ -1,0 +1,15 @@
+_target_: src.models.cmmi_module.textSumLitModule
+lr: 0.0001
+weight_decay: 0.0005
+
+net:
+  _target_: src.models.components.mome.Transformer
+  d_model: 768
+  d_ff: 2048
+  n_heads: 8
+  num_encoder_layers: 6 
+  num_decoder_layers: 6 
+  src_vocab_size: 21128 
+  tgt_vocab_size: 21128 
+  d_k: 64 
+  d_v: 64 

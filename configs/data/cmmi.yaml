@@ -1,0 +1,14 @@
+_target_: src.data.cmmi_datamodule.textSumDataModule
+data_dir: ./data
+train_data_dir1: ./data/train1.json
+dev_data_dir1: ./data/dev1.json
+test_data_dir1: ./data/test1.json
+train_data_dir2: ./data/train2.json
+dev_data_dir2: ./data/dev2.json
+test_data_dir2: ./data/test2.json
+train_data_dir3: ./data/train3.json
+dev_data_dir3: ./data/dev3.json
+test_data_dir3: ./data/test3.json
+batch_size: 8
+num_workers: 0
+pin_memory: False
