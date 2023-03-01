@@ -5,7 +5,8 @@ import pyrootutils
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 from pytorch_lightning import Callback, LightningDataModule, LightningModule, Trainer
-from pytorch_lightning.loggers import Logger
+from pytorch_lightning.loggers import Logger, WandbLogger
+wandb_logger = WandbLogger(project="factual consistency")
 
 pyrootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 # ------------------------------------------------------------------------------------ #
@@ -30,7 +31,7 @@ from src import utils
 log = utils.get_pylogger(__name__)
 
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '2'
 
 @utils.task_wrapper
 def train(cfg: DictConfig) -> Tuple[dict, dict]:
@@ -64,7 +65,7 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
     logger: List[Logger] = utils.instantiate_loggers(cfg.get("logger"))
 
     log.info(f"Instantiating trainer <{cfg.trainer._target_}>")
-    trainer: Trainer = hydra.utils.instantiate(cfg.trainer, callbacks=callbacks, logger=logger)
+    trainer: Trainer = hydra.utils.instantiate(cfg.trainer, callbacks=callbacks, logger=wandb_logger)
 
     object_dict = {
         "cfg": cfg,

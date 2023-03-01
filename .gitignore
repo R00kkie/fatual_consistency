@@ -152,3 +152,6 @@ configs/local/default.yaml
 
 *.log
 /test/
+/wandb/
+
+trail_sheet.txt

@@ -1,0 +1,1 @@
+nohup python ./src/train.py -m hparams_search=cmmi_optuna > search_0228.log 2>&1 &

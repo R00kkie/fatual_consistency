@@ -191,7 +191,6 @@ class textSumLitModule(LightningModule):
         rog_2 = R_2 / len(summary)
         rog_L = R_L / len(summary)
         self.log("train/loss", loss, on_step=False, on_epoch=True, prog_bar=False, batch_size=len(batch[0]))
-        #self.log("train/rouge", rog, on_step=False, on_epoch=True, prog_bar=True)
         self.log("train/rouge_1", rog_1, on_step=False, on_epoch=True, prog_bar=True, batch_size=len(batch[0]))
         self.log("train/rouge_2", rog_2, on_step=False, on_epoch=True, prog_bar=True, batch_size=len(batch[0]))
         self.log("train/rouge_L", rog_L, on_step=False, on_epoch=True, prog_bar=True, batch_size=len(batch[0]))
@@ -252,7 +251,7 @@ class textSumLitModule(LightningModule):
         R_2 = 0
         R_L = 0
         predicts = []
-        for i in range(len(summary)):
+        for i in range(1):
             targets_token = summary[i]
             greedy_dec_input = self.greedy_decoder(max_len=250, enc_input=x_input_ids[i].view(1, -1), task_type=task_type, start_symbol=101)
             #print("".join(self.tokenizer.convert_ids_to_tokens(greedy_dec_input[0], skip_special_tokens=False)))
@@ -339,7 +338,7 @@ class textSumLitModule(LightningModule):
             if preds_token == '':
                 preds_token = '空'
             print(preds_token)
-            with open('./test/cmmi_1epoch.txt', 'a+') as f:
+            with open('./test/cmmi_5epoch.txt', 'a+') as f:
                 f.write(preds_token+'\n')
             
 
