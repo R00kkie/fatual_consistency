@@ -1,1 +1,1 @@
-nohup python ./src/train.py > cmmi_0301_5epoch.log 2>&1 &
+nohup python ./src/train.py > cmmi_0306_10epoch.log 2>&1 &

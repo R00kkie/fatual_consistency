@@ -49,21 +49,11 @@ class textSumLitModule(LightningModule):
         self.train_rog = Rouge()
         self.val_rog = Rouge()
         self.test_rog = Rouge()
-        
-        # for logging best so far train roguracy
-        self.train_rog_1_best = MaxMetric()
-        self.train_rog_2_best = MaxMetric()
-        self.train_rog_L_best = MaxMetric()
 
         # for logging best so far validation roguracy
         self.val_rog_1_best = MaxMetric()
         self.val_rog_2_best = MaxMetric()
         self.val_rog_L_best = MaxMetric()
-
-        # for logging best so far test roguracy
-        self.test_rog_1_best = MaxMetric()
-        self.test_rog_2_best = MaxMetric()
-        self.test_rog_L_best = MaxMetric()
 
     def forward(self, x: torch.Tensor, y: torch.Tensor, task_type: str):
         return self.net(x,y,task_type)
@@ -140,26 +130,6 @@ class textSumLitModule(LightningModule):
                 terminal = True
             #print(next_word)            
         return dec_input
-    
-    """def greedy_decoder(self, max_len, enc_input, start_symbol=101):
-        # enc_outputs, enc_self_attns = model.encoder(enc_input)
-        dec_input = torch.zeros(1, 0).type_as(enc_input.data)
-        terminal = False
-        next_symbol = start_symbol
-        while not terminal:
-            if dec_input.shape[1] >= max_len:
-                return dec_input
-            dec_input = torch.cat([dec_input.detach(),torch.tensor([[next_symbol]],dtype=enc_input.dtype).cuda()],-1)
-            dec_outputs, _, _, _  = self.forward(enc_input, dec_input)
-            # dec_outputs, _, _ = model.decoder(dec_input, enc_input, enc_outputs)
-            # projected = model.projection(dec_outputs)
-            prob = dec_outputs.max(dim=-1, keepdim=False)[1]
-            next_word = prob.data[-1]
-            next_symbol = next_word
-            if int(next_symbol) == 102:
-                terminal = True
-            #print(next_word)            
-        return dec_input"""
 
     def training_step(self, batch: Any, batch_idx: int):
         # print('strat train')
@@ -167,62 +137,13 @@ class textSumLitModule(LightningModule):
         content, summary = batch
         loss, preds, targets = self.model_step(batch)
 
-        R_1 = 0
-        R_2 = 0
-        R_L = 0
-        for i in range(len(summary)):
-            targets_token = summary[i]
-            preds_token = "".join(self.tokenizer.convert_ids_to_tokens(preds[i], skip_special_tokens=True))
-
-            if preds_token == '':
-                preds_token = '空'
-            # print('---------train-----------')
-            # print(targets_token)
-            # print(preds_token)
-            # log val metrics
-            rog = self.train_rog.get_scores(' '.join(list(targets_token)), ' '.join(list(preds_token)[:500]))
-            #rog = rog[0]['rouge-1']['f']
-            R_1 = R_1 + rog[0]['rouge-1']['f']
-            R_2 = R_2 + rog[0]['rouge-2']['f']
-            R_L = R_L + rog[0]['rouge-l']['f']
-        
-        # log val metrics
-        rog_1 = R_1 / len(summary)
-        rog_2 = R_2 / len(summary)
-        rog_L = R_L / len(summary)
-        self.log("train/loss", loss, on_step=False, on_epoch=True, prog_bar=False, batch_size=len(batch[0]))
-        self.log("train/rouge_1", rog_1, on_step=False, on_epoch=True, prog_bar=True, batch_size=len(batch[0]))
-        self.log("train/rouge_2", rog_2, on_step=False, on_epoch=True, prog_bar=True, batch_size=len(batch[0]))
-        self.log("train/rouge_L", rog_L, on_step=False, on_epoch=True, prog_bar=True, batch_size=len(batch[0]))
-
         # we can return here dict with any tensors
         # and then read it in some callback or in `training_epoch_end()`` below
         # remember to always return loss from `training_step()` or else backpropagation will fail!
-        return {"loss": loss, "preds": preds_token, "targets": targets_token, "rouge_1": rog_1, "rouge_2": rog_2, "rouge_L": rog_L}
+        return {"loss": loss}
 
     def training_epoch_end(self, outputs: List[Any]):
         # `outputs` is a list of dicts returned from `training_step()`
-        R_1 = 0
-        R_2 = 0
-        R_L = 0
-        for i in range(len(outputs)):
-            R_1 = R_1 + outputs[i]['rouge_1']
-            R_2 = R_2 + outputs[i]['rouge_2']
-            R_L = R_L + outputs[i]['rouge_L']
-        
-        #rog = R / len(outputs)
-        rog_1 = R_1 / len(outputs)
-        rog_2 = R_2 / len(outputs)
-        rog_L = R_L / len(outputs)
-        self.train_rog_1_best.update(rog_1)
-        self.train_rog_2_best.update(rog_2)
-        self.train_rog_L_best.update(rog_L)
-        self.log("train/rouge_1_best", self.train_rog_1_best.compute(), on_epoch=True, prog_bar=True)
-        self.log("train/rouge_2_best", self.train_rog_2_best.compute(), on_epoch=True, prog_bar=True)
-        self.log("train/rouge_L_best", self.train_rog_L_best.compute(), on_epoch=True, prog_bar=True)
-        print("train/rouge_1_best", self.train_rog_1_best.compute())
-        print("train/rouge_2_best", self.train_rog_2_best.compute())
-        print("train/rouge_L_best", self.train_rog_L_best.compute())
         pass
 
     def validation_step(self, batch: Any, batch_idx: int):
@@ -337,8 +258,8 @@ class textSumLitModule(LightningModule):
             preds_token = "".join(self.tokenizer.convert_ids_to_tokens(predict, skip_special_tokens=True))
             if preds_token == '':
                 preds_token = '空'
-            print(preds_token)
-            with open('./test/cmmi_5epoch.txt', 'a+') as f:
+            # print(preds_token)
+            with open('./test/cmmi_3E3D_10epoch.txt', 'a+') as f:
                 f.write(preds_token+'\n')
             
 
